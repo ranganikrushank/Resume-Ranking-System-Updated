@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shortlisted Resumes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in-up {
+      animation: fadeInUp 0.6s ease-out both;
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-blue-100 to-white min-h-screen p-6 flex flex-col justify-center items-center">
+
+  <div class="glass fade-in-up w-full max-w-5xl p-8 rounded-2xl shadow-xl">
+    <h2 class="text-3xl md:text-4xl font-extrabold text-blue-700 mb-6 text-center">
+      ✅ Top {{ requested }} Shortlisted Resumes
+      <span class="text-gray-500 text-base block mt-1">(out of {{ total }})</span>
+    </h2>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm table-auto border border-gray-200 rounded-xl overflow-hidden">
+        <thead class="bg-blue-200 text-blue-800 uppercase text-xs tracking-wide">
+          <tr>
+            <th class="px-4 py-3 text-left">Filename</th>
+            <th class="px-4 py-3 text-left">Score</th>
+            <th class="px-4 py-3 text-left">Similarity</th>
+            <th class="px-4 py-3 text-left">Predicted Role</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white text-gray-700">
+          {% for item in shortlisted %}
+          <tr class="border-t hover:bg-gray-50 transition duration-200">
+            <td class="px-4 py-3 font-medium">{{ item.filename }}</td>
+            <td class="px-4 py-3 text-green-700 font-semibold">{{ item.score }}</td>
+            <td class="px-4 py-3 text-purple-700 font-semibold">{{ item.similarity }}</td>
+            <td class="px-4 py-3">
+              <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-xs font-medium">
+                {{ item.predicted_role or 'N/A' }}
+              </span>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mt-8 text-center">
+      <a href="/upload"
+         class="inline-block text-blue-600 font-medium hover:underline transition text-sm">
+        ← Back to Upload
+      </a>
+    </div>
+  </div>
+
+  <!-- Footer with your credit -->
+  <div class="mt-6 text-center text-xl text-gray-500 fade-in-up">
+    Made with ❤️ by
+    <a href="https://www.linkedin.com/in/krushankrangani" target="_blank"
+       class="text-blue-600 font-medium hover:underline text-xl">Krushank Rangani</a>
+  </div>
+
+</body>
+</html>

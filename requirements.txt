@@ -1,0 +1,6 @@
+Flask
+Flask-Login
+Flask-SQLAlchemy
+sentence-transformers
+PyMuPDF
+pandas

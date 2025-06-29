@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #1e3a8a, #4f46e5);
+      overflow: hidden;
+    }
+
+    .glow-card {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .floating-icon {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-fadeInUp {
+      animation: fadeInUp 0.8s ease-out both;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center px-4">
+
+  <!-- Decorative floating icons -->
+  <div class="absolute top-10 left-10 text-white opacity-20 floating-icon text-5xl">🧠</div>
+  <div class="absolute bottom-14 right-12 text-white opacity-20 floating-icon text-5xl">🔐</div>
+  <div class="absolute top-20 right-24 text-white opacity-10 floating-icon text-6xl">📊</div>
+
+  <!-- Login Card -->
+  <div class="glow-card p-8 rounded-2xl w-full max-w-md animate-fadeInUp text-white relative z-10">
+    <div class="text-center mb-6">
+      <h1 class="text-4xl font-bold drop-shadow-sm tracking-wide">Admin Login</h1>
+      <p class="text-sm text-indigo-100 mt-1">Secure access to resume ranking system</p>
+    </div>
+
+    <form method="POST" class="space-y-6">
+      <!-- Email Field -->
+      <div class="relative">
+        <input type="email" name="email" placeholder=" "
+               class="peer w-full px-4 py-2 bg-transparent border border-white/30 rounded-md text-white placeholder-transparent focus:outline-none focus:ring-2 focus:ring-indigo-400" required />
+        <label class="absolute left-4 top-2 text-sm text-white/70 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-white/40 peer-focus:top-2 peer-focus:text-sm peer-focus:text-white">
+          Admin Email
+        </label>
+      </div>
+
+      <!-- Password Field -->
+      <div class="relative">
+        <input type="password" name="password" placeholder=" "
+               class="peer w-full px-4 py-2 bg-transparent border border-white/30 rounded-md text-white placeholder-transparent focus:outline-none focus:ring-2 focus:ring-indigo-400" required />
+        <label class="absolute left-4 top-2 text-sm text-white/70 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-white/40 peer-focus:top-2 peer-focus:text-sm peer-focus:text-white">
+          Password
+        </label>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit"
+              class="w-full py-2 bg-indigo-500 hover:bg-indigo-600 rounded-md font-medium shadow-lg transition">
+        🚀 Login as Admin
+      </button>
+    </form>
+
+    <div class="text-center text-sm text-indigo-200 mt-6">
+      Not an admin? <a href="/login" class="text-white hover:underline">Go to User Login</a>
+    </div>
+  </div>
+
+</body>
+</html>

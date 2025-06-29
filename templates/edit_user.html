@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit User</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in-up {
+      animation: fadeInUp 0.6s ease-out both;
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.45);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-gray-100 to-indigo-300 min-h-screen flex items-center justify-center px-4">
+
+  <form method="POST" class="glass max-w-md w-full p-8 rounded-2xl fade-in-up">
+    <h2 class="text-3xl font-bold text-indigo-700 mb-6 text-center">✉️ Edit User Email</h2>
+
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700 mb-1">User Email</label>
+      <input type="email"
+             name="email"
+             value="{{ user.email }}"
+             required
+             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"/>
+    </div>
+
+    <button type="submit"
+            class="w-full py-2 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 transition shadow-sm">
+      💾 Save Changes
+    </button>
+
+    <div class="text-center text-sm text-gray-600 mt-6">
+      <a href="/admin" class="text-indigo-600 hover:underline">← Back to Admin Panel</a>
+    </div>
+  </form>
+
+</body>
+</html>
