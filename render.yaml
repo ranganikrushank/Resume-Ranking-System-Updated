@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: resume-ranker
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: SECRET_KEY
+        value: "cfd330305bda3b6dcecd7e9e76947bdc52a7478be281f825d4c8dab230b3df29"
