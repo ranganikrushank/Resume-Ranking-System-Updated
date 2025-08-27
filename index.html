@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="" name="AutoBot Builder - AI Powered Chatbot Creation Platform">
+    <meta name="description" content="AutoBot Builder - Building Chatbots within Minutes">
+    <title>AutoBot Builder - AI Powered Chatbot Creation Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@800;900&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- SUPABASE SCRIPT -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <link href="/images/AutoBotBuilder - Logo.png" rel="icon" sizes="16x16">
+    <link href="/images/AutoBotBuilder - Logo.png" rel="icon" sizes="32x32">
+    <link href="/images/AutoBotBuilder - Logo.png" rel="icon" sizes="48x48">
+    <link href="/images/AutoBotBuilder - Logo.png" rel="apple-touch-icon" sizes="180x180">
+    <link href="/images/AutoBotBuilder - Logo.png" rel="icon" type="image/png" sizes="192x192">
+    <link href="/images/AutoBotBuilder - Logo.png" rel="icon" type="image/png" sizes="256x256">
+
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --success: #10b981;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-reverse: linear-gradient(135deg, var(--secondary), var(--accent));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 20%);
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            padding: 25px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            background: rgba(15, 23, 42, 0.8);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 2rem;
+            background: var(--gradient-reverse);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 35px;
+        }
+
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            padding: 5px 0;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient);
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 2px;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 30px;
+            height: 3px;
+            background: var(--light);
+            margin: 4px 0;
+            transition: 0.4s;
+            border-radius: 2px;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 0 80px;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 650px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            line-height: 1.1;
+            letter-spacing: -1px;
+        }
+
+        .hero h1 span {
+            background: var(--gradient-reverse);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            color: var(--gray);
+            max-width: 600px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 35px;
+            background: var(--gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 120px 0;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 80px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 35px;
+        }
+
+        .feature-card {
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 24px;
+            padding: 40px 35px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px);
+            background: rgba(15, 23, 42, 0.8);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            border-color: rgba(148, 163, 184, 0.2);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            font-size: 2rem;
+            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        /* Demo Section */
+        .demo {
+            padding: 80px 0;
+            text-align: center;
+            background: rgba(15, 23, 42, 0.4);
+            position: relative;
+        }
+
+        .demo-container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 25px;
+            padding: 35px 25px;
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .demo-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent,
+                    rgba(99, 102, 241, 0.2),
+                    transparent 30%);
+            animation: rotate 4s linear infinite;
+        }
+
+        @keyframes rotate {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .demo-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .chat-preview {
+            background: rgba(2, 6, 23, 0.8);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 30px 0;
+            text-align: left;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .chat-message {
+            margin-bottom: 15px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .chat-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .chat-bubble {
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 15px;
+            padding: 12px 15px;
+            max-width: 80%;
+            /* Reduced from 75% for better fit on small screens */
+            font-size: 0.9rem;
+            word-wrap: break-word;
+            /* Ensure long words break */
+        }
+
+        .user-message {
+            flex-direction: row-reverse;
+        }
+
+        .user-bubble {
+            background: rgba(139, 92, 246, 0.3);
+            margin-left: auto;
+            /* Add max-width for user bubbles too */
+            max-width: 80%;
+        }
+
+        /* Responsive adjustments for the Demo section */
+        @media (max-width: 767px) {
+            .demo {
+                padding: 60px 0;
+            }
+
+            .demo-container {
+                padding: 25px 15px;
+                /* Reduce padding on small screens */
+            }
+
+            .chat-preview {
+                padding: 15px;
+                /* Reduce padding */
+            }
+
+            .chat-message {
+                margin-bottom: 12px;
+                /* Slightly reduce gap */
+                gap: 10px;
+                /* Reduce gap between avatar and bubble */
+            }
+
+            .chat-avatar {
+                width: 30px;
+                height: 30px;
+                font-size: 0.6rem;
+            }
+
+            .chat-bubble {
+                padding: 10px 12px;
+                /* Reduce padding */
+                font-size: 0.85rem;
+                /* Slightly smaller text */
+                max-width: 75%;
+                /* Adjust max width for small screens */
+            }
+
+            .user-bubble {
+                max-width: 75%;
+                /* Ensure user bubbles also adjust */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .demo {
+                padding: 50px 0;
+            }
+
+            .chat-avatar {
+                width: 28px;
+                height: 28px;
+                font-size: 0.55rem;
+            }
+
+            .chat-bubble {
+                padding: 8px 10px;
+                /* Further reduce padding */
+                font-size: 0.8rem;
+                /* Smaller text */
+                max-width: 70%;
+                /* Adjust for very small screens */
+            }
+
+            .user-bubble {
+                max-width: 70%;
+            }
+        }
+
+        /* Ensure the conic gradient animation doesn't cause issues on mobile */
+        @media (prefers-reduced-motion: reduce) {
+            .demo-container::before {
+                animation: none;
+            }
+        }
+
+        /* Pricing Plans */
+        .pricing {
+            padding: 120px 0;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 35px;
+            margin-top: 60px;
+        }
+
+        .pricing-card {
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 24px;
+            padding: 50px 40px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card.popular {
+            transform: scale(1.05);
+            border: 2px solid var(--secondary);
+            box-shadow: 0 40px 80px rgba(139, 92, 246, 0.2);
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        .popular-tag {
+            position: absolute;
+            top: 25px;
+            right: -35px;
+            background: var(--gradient-reverse);
+            color: white;
+            padding: 8px 40px;
+            transform: rotate(45deg);
+            font-size: 0.9rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .pricing-card h3 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .pricing-card .subtitle {
+            color: var(--gray);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .price {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            font-family: 'Poppins', sans-serif;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-display: center;
+        }
+
+        .price span {
+            font-size: 1.2rem;
+            font-weight: 400;
+            opacity: 0.7;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 40px 0;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+            display: flex;
+            align-items: center;
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-features li i {
+            color: var(--success);
+            margin-right: 15px;
+            font-size: 1.1rem;
+        }
+
+        .pricing-features li.disabled i {
+            color: #ef4444;
+            opacity: 0.5;
+        }
+
+        .pricing-features li.disabled {
+            opacity: 0.5;
+        }
+
+        /* Early Access Form */
+        .early-access {
+            padding: 120px 0;
+            position: relative;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(15, 23, 42, 0.8);
+            padding: 60px;
+            border-radius: 30px;
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 18px 20px;
+            border-radius: 16px;
+            border: 2px solid rgba(148, 163, 184, 0.2);
+            background: rgba(2, 6, 23, 0.5);
+            color: white;
+            font-size: 1.1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--secondary);
+            background: rgba(2, 6, 23, 0.7);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.2);
+        }
+
+        .benefits {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .benefits h4 {
+            color: var(--success);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .benefits ul {
+            list-style: none;
+        }
+
+        .benefits li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .benefits li i {
+            color: var(--success);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(2, 6, 23, 0.95);
+            padding: 80px 0 40px;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+            text-align: left;
+        }
+
+        .footer-section h4 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: rgba(148, 163, 184, 0.1);
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .social-links a:hover {
+            background: var(--gradient);
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .copyright {
+            opacity: 0.7;
+            font-size: 0.9rem;
+            padding-top: 40px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .floating {
+            animation: floating 6s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .success-message {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid var(--success);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 30px 0;
+            display: none;
+            text-align: center;
+        }
+
+        .success-message i {
+            font-size: 3rem;
+            color: var(--success);
+            margin-bottom: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            nav ul {
+                gap: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .pricing-card.popular {
+                transform: scale(1);
+            }
+
+            .form-container {
+                padding: 40px 30px;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            /* Mobile Navigation */
+            .hamburger {
+                display: flex;
+            }
+
+            nav {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: rgba(15, 23, 42, 0.95);
+                backdrop-filter: blur(20px);
+                transition: 0.5s ease;
+                z-index: 1000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            nav.active {
+                right: 0;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 25px;
+            }
+
+            nav a {
+                font-size: 1.3rem;
+                padding: 10px 20px;
+            }
+
+            /* Overlay */
+            .overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.7);
+                backdrop-filter: blur(5px);
+                z-index: 999;
+                opacity: 0;
+                visibility: hidden;
+                transition: 0.3s ease;
+            }
+
+            .overlay.active {
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2.3rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .features-grid,
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chat-bubble {
+                max-width: 250px;
+            }
+        }
+
+        /* Particle Animation */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 3D Background Canvas -->
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Overlay for mobile menu -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">Auto <span >Bot Builder</span> <br> <h3 style="font-size: 10px;">Atlancia Worldwide</h3></div>
+            <!-- Hamburger Menu -->
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <nav id="nav">
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#demo">Demo</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#early-access">Early Access</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content fade-in">
+                <h1>Build <span>AI-Powered</span> Chatbots<br>In Minutes</h1>
+                <p>Upload your data, train your chatbot, and deploy anywhere with zero coding required. Experience the
+                    future of customer engagement.</p>
+
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">97.2%</div>
+                        <div class="stat-label">Accuracy</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">5min</div>
+                        <div class="stat-label">Setup Time</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">∞</div>
+                        <div class="stat-label">Integration</div>
+                    </div>
+                </div>
+
+                <a href="#early-access" class="cta-button floating">
+                    <i class="fas fa-rocket"></i> Get Early Access
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title fade-in">Powerful Features</h2>
+            <p class="section-subtitle fade-in">Everything you need to create intelligent chatbots that understand and
+                engage your customers</p>
+
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-upload"></i>
+                    </div>
+                    <h3>Multi-Format Upload</h3>
+                    <p>Upload CSV, PDF, DOC, DOCX, and TXT files to train your chatbot with your own data. No data
+                        format restrictions.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>Import Data via URL</h3>
+                    <p>Easily integrate external sources by importing data from URLs into your dashboard.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>AI-Powered Training</h3>
+                    <p>Advanced machine learning models that understand context and provide human-like responses with
+                        99%+ accuracy.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Universal Integration</h3>
+                    <p>Deploy on any website, WordPress, Shopify, or custom platforms with simple copy-paste code
+                        snippets.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-infinity"></i>
+                    </div>
+                    <h3>Lifetime Deployment</h3>
+                    <p>Once deployed, your chatbot works forever with continuous learning capabilities and no recurring
+                        costs.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>Multi-Language Support</h3>
+                    <p>Create chatbots in multiple languages with automatic language detection and seamless translation.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section class="demo" id="demo">
+        <div class="container">
+            <div class="demo-container fade-in">
+                <div class="demo-content">
+                    <h2 class="section-title">See It In Action</h2>
+                    <p class="section-subtitle">Watch how easy it is to create and deploy your AI chatbot</p>
+
+                    <div class="chat-preview">
+                        <div class="chat-message">
+                            <div class="chat-avatar">CB</div>
+                            <div class="chat-bubble">
+                                Hello! I'm your AI assistant. How can I help you today?
+                            </div>
+                        </div>
+                        <div class="chat-message user-message">
+                            <div class="chat-avatar">U</div>
+                            <div class="chat-bubble user-bubble">
+                                What are your business hours?
+                            </div>
+                        </div>
+                        <div class="chat-message">
+                            <div class="chat-avatar">CB</div>
+                            <div class="chat-bubble">
+                                We're open Monday to Friday, 9 AM to 6 PM EST. You can also email us at
+                                support@company.com for 24/7 assistance.
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="#early-access" class="cta-button">
+                        <i class="fas fa-play-circle"></i> Watch Full Demo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Plans -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <h2 class="section-title fade-in">Simple, Transparent Pricing</h2>
+            <p class="section-subtitle fade-in">Choose the plan that's right for your needs. All plans include core
+                features.</p>
+
+            <div class="pricing-grid">
+                <div class="pricing-card fade-in">
+                    <h3>Starter</h3>
+                    <p class="subtitle">Perfect for testing and small projects</p>
+                    <div class="price">$59.99 </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> 1 Chatbot</li>
+                        <li><i class="fas fa-check"></i> 1000 Q&A Pairs</li>
+                        <li><i class="fas fa-check"></i> Accurate Training</li>
+                        <li><i class="fas fa-check"></i> Multi-platform Deployment</li>
+                        <li><i class="fas fa-check"></i> Advanced Analytics</li>
+                        <li><i class="fas fa-check"></i> Priority & Email Support</li>
+                    </ul>
+                    <a href="#early-access" class="cta-button">Get Started Free</a>
+                </div>
+                <div class="pricing-card popular fade-in">
+                    <div class="popular-tag">MOST POPULAR</div>
+                    <h3>Professional</h3>
+                    <p class="subtitle">Ideal for businesses and agencies</p>
+                    <div class="price">$129.33 </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> 3 Chatbots</li>
+                        <li><i class="fas fa-check"></i> 10,000 Q&A Pairs</li>
+                        <li><i class="fas fa-check"></i> Advanced Training</li>
+                        <li><i class="fas fa-check"></i> Multi-platform Deployment</li>
+                        <li><i class="fas fa-check"></i> Analytics Dashboard</li>
+                        <li><i class="fas fa-check"></i> Priority & Email Support</li>
+                    </ul>
+                    <a href="#early-access" class="cta-button">Start Free Trial</a>
+                </div>
+                <div class="pricing-card fade-in">
+                    <h3>Enterprise</h3>
+                    <p class="subtitle">For large organizations</p>
+                    <div class="price">$299.99 </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Unlimited Chatbots</li>
+                        <li><i class="fas fa-check"></i> Unlimited Q&A Pairs</li>
+                        <li><i class="fas fa-check"></i> Premium Training</li>
+                        <li><i class="fas fa-check"></i> Custom Integrations</li>
+                        <li><i class="fas fa-check"></i> Advanced Analytics</li>
+                        <li><i class="fas fa-check"></i> Priority & Email Support</li>
+                    </ul>
+                    <a href="#early-access" class="cta-button">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Early Access Form -->
+    <section class="early-access" id="early-access">
+        <div class="container">
+            <div class="form-container fade-in">
+                <h2 class="section-title">Get Early Bird Access</h2>
+                <p class="section-subtitle">Be among the first to experience Chatbot Builder. Early adopters get
+                    exclusive benefits!</p>
+
+                <!-- Success/Error Messages -->
+                <div class="success-message" id="successMessage">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>Thank You!</h3>
+                    <p>We've received your request. Our team will contact you soon with early access details and
+                        exclusive benefits.</p>
+                </div>
+                <div class="success-message" id="errorMessage"
+                    style="display: none; background: rgba(239, 68, 68, 0.2); border-color: #ef4444;">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <h3>Error!</h3>
+                    <p id="errorMessageText">Sorry, there was an error submitting your request. Please try again.</p>
+                </div>
+
+                <!-- Supabase Form -->
+                <form id="earlyAccessForm">
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required placeholder="Enter your email address">
+                    </div>
+                    <div class="form-group">
+                        <label for="company">Company/Website</label>
+                        <input type="text" id="company" name="company" placeholder="Your company or website URL">
+                    </div>
+                    <div class="form-group">
+                        <label for="useCase">How will you use Chatbot Builder?</label>
+                        <select id="useCase" name="useCase">
+                            <option value="">Select your use case</option>
+                            <option value="ecommerce">E-commerce Support</option>
+                            <option value="customer-service">Customer Service</option>
+                            <option value="lead-generation">Lead Generation</option>
+                            <option value="education">Education/Training</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="additionalInfo">Additional Information</label>
+                        <textarea id="additionalInfo" name="additionalInfo" rows="4"
+                            placeholder="Tell us more about your chatbot needs..."></textarea>
+                    </div>
+
+                    <div class="benefits">
+                        <h4><i class="fas fa-gift"></i> Early Bird Exclusive Benefits</h4>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Free access for first 3 months (Professional plan)
+                            </li>
+                            <li><i class="fas fa-check-circle"></i> Priority customer support with 24-hour response</li>
+                            <li><i class="fas fa-check-circle"></i> Exclusive feature previews and beta access</li>
+                            <li><i class="fas fa-check-circle"></i> 50% discount on first year subscription</li>
+                            <li><i class="fas fa-check-circle"></i> Personal onboarding session with our experts</li>
+                        </ul>
+                    </div>
+
+                    <button type="submit" class="cta-button" style="width: 100%;">
+                        <i class="fas fa-paper-plane"></i> Request Early Access Now
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo" style="font-size: 1.8rem; margin-bottom: 20px;">AutoBot<span> Builder</span> <br> <h3 style="font-size: 10px;">Atlancia Worldwide</h3></div>
+                    <!-- <img src="/images/BotPro Logo No bg.png" alt="ChatFactory" class="custom-logo" style="margin-bottom: 20px; max-height: 420px; width: auto; height:460px;"> -->
+                    <p style="color: var(--gray); line-height: 1.7;">AI-Powered Chatbot Creation Platform that helps
+                        businesses engage customers with intelligent automation.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <ul class="footer-links">
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#demo">Demo</a></li>
+                        <!-- <li><a href="#">Documentation</a></li> -->
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://atlanciaworldwide.com/aboutus" target="_blank">About Us</a></li>
+                        <!-- <li><a href="#">Blog</a></li>
+                        <li><a href="#">Careers</a></li> -->
+                        <li><a href="#early-access">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="/">Help Center</a></li>
+                        <li><a href="/">Community</a></li>
+                        <!-- <li><a href="/">Status</a></li> -->
+                        <li><a href="/">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/atlancia-worldwide-4656b4321/" target="_blank" style="text-decoration: none;"><i class="fab fa-linkedin-in"></i></a>
+                <!-- <a href="#" style="text-decoration: none;"><i class="fab fa-facebook-f"></i></a> -->
+                <a href="https://www.instagram.com/atlanciaworldwide/" target="_blank" style="text-decoration: none;"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/+917778888578?text=Hello!!%20I%20want%20more%20information%20about%20your%20Product%20ChatFactory." target="_blank" style="text-decoration: none;"><i class="fab fa-whatsapp"></i></a>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2025 AutoBot Builder. All rights reserved by <a href="https://atlanciaworldwide.com/" target="_blank" style="text-decoration: none;"><span style="color: rgb(217, 255, 0);">Atlancia Worldwide</span></a>.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 3D Background Animation
+        function init3DBackground() {
+            const canvas = document.getElementById('bgCanvas');
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const particles = [];
+            const particleCount = 50;
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 3 + 1;
+                    this.speedX = Math.random() * 1 - 0.5;
+                    this.speedY = Math.random() * 1 - 0.5;
+                    this.opacity = Math.random() * 0.5 + 0.1;
+                }
+
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+
+                    if (this.x > canvas.width || this.x < 0) this.speedX = -this.speedX;
+                    if (this.y > canvas.height || this.y < 0) this.speedY = -this.speedY;
+                }
+
+                draw() {
+                    ctx.fillStyle = `rgba(99, 102, 241, ${this.opacity})`;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+
+            function animate() {
+                ctx.fillStyle = 'rgba(2, 6, 23, 0.1)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                particles.forEach(particle => {
+                    particle.update();
+                    particle.draw();
+                });
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+        }
+
+        // Particle System
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animation = `float ${Math.random() * 10 + 10}s ease-in-out infinite`;
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                particle.style.opacity = Math.random() * 0.5 + 0.1;
+                particle.style.width = Math.random() * 4 + 2 + 'px';
+                particle.style.height = particle.style.width;
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+
+                    // Close mobile menu if open
+                    nav.classList.remove('active');
+                    overlay.classList.remove('active');
+                    hamburger.classList.remove('active');
+                }
+            });
+        });
+
+        // Form submission
+        document.getElementById('earlyAccessForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+
+            if (name && email) {
+                document.getElementById('successMessage').style.display = 'block';
+                document.getElementById('earlyAccessForm').style.display = 'none';
+
+                // Simulate form submission
+                console.log('Form submitted:', {
+                    name: name,
+                    email: email,
+                    company: document.getElementById('company').value,
+                    useCase: document.getElementById('useCase').value,
+                    additionalInfo: document.getElementById('additionalInfo').value
+                });
+            }
+        });
+
+        // Scroll animations
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 100;
+
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+
+        // Run on scroll and initial load
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', () => {
+            animateOnScroll();
+            init3DBackground();
+            createParticles();
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', function () {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(15, 23, 42, 0.95)';
+                header.style.boxShadow = '0 10px 30px rgba(0,0,0,0.3)';
+            } else {
+                header.style.background = 'rgba(15, 23, 42, 0.8)';
+                header.style.boxShadow = 'none';
+            }
+        });
+
+        // Floating animation for elements
+        const floatingElements = document.querySelectorAll('.floating');
+        floatingElements.forEach((element, index) => {
+            element.style.animationDelay = `${index * 0.5}s`;
+        });
+
+        // Mobile Navigation
+        const hamburger = document.getElementById('hamburger');
+        const nav = document.getElementById('nav');
+        const overlay = document.getElementById('overlay');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            nav.classList.toggle('active');
+            overlay.classList.toggle('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            nav.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+
+        // Close menu when clicking on a link
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                nav.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+        });
+
+        // Wrap everything inside DOMContentLoaded to ensure the DOM is ready
+        document.addEventListener('DOMContentLoaded', function () {
+            // 1. Initialize Supabase Client INSIDE the event listener
+            // IMPORTANT: Replace these placeholders with your actual Supabase credentials
+            const supabaseUrl = 'https://zcdwcmqoshkezgrwktmg.supabase.co';
+            const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpjZHdjbXFvc2hrZXpncndrdG1nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYzMjQ0OTUsImV4cCI6MjA3MTkwMDQ5NX0.3_rH5VRy9p7__w-vEbulfzbPYq4glwSPv5UtcF26GCg';
+            // Create the Supabase client instance
+            const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+            // 2. Get form and message elements
+            const form = document.getElementById('earlyAccessForm');
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+            const errorMessageText = document.getElementById('errorMessageText');
+
+            // Check if form exists to avoid errors on other pages
+            if (!form) {
+                console.warn("Supabase Form Integration: Form with ID 'earlyAccessForm' not found on this page.");
+                return; // Exit if form is not present
+            }
+
+            // 3. Handle form submission
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault(); // Prevent default form submission
+
+                // 4. Collect form data
+                const formData = {
+                    name: document.getElementById('name').value.trim(),
+                    email: document.getElementById('email').value.trim(),
+                    company: document.getElementById('company').value.trim() || null, // Handle optional fields
+                    use_case: document.getElementById('useCase').value || null,
+                    additional_info: document.getElementById('additionalInfo').value.trim() || null
+                    // created_at is handled by the database default
+                };
+
+                // Basic validation (optional, but good practice)
+                if (!formData.name || !formData.email) {
+                    showErrorMessage("Name and Email are required.");
+                    return;
+                }
+
+                // 5. Disable submit button to prevent double submission
+                const submitButton = form.querySelector('button[type="submit"]');
+                const originalButtonText = submitButton.innerHTML;
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+                try {
+                    // 6. Insert data into Supabase table
+                    // Make sure the table name 'early_access_requests' matches your Supabase table exactly
+                    const { data, error } = await supabase
+                        .from('early_access_requests')
+                        .insert([formData]);
+
+                    // 7. Handle response
+                    if (error) {
+                        console.error('Supabase Insert Error:', error); // Log the full error for debugging
+                        throw new Error(error.message || 'Unknown error occurred during data submission.');
+                    } else {
+                        console.log('Data successfully inserted:', data);
+                        // 8. Show success message and hide form
+                        if (successMessage) {
+                            successMessage.style.display = 'block';
+                        }
+                        form.style.display = 'none'; // Hide the form
+                    }
+                } catch (err) {
+                    console.error('Caught Error in Form Submission:', err);
+                    // 9. Show error message to user
+                    const userMessage = err.message.includes('duplicate key') ?
+                        "It seems you've already submitted a request with this email." :
+                        `Error: ${err.message || 'Failed to submit request. Please try again.'}`;
+                    showErrorMessage(userMessage);
+                } finally {
+                    // 10. Re-enable submit button
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = originalButtonText;
+                }
+            });
+
+            // Helper function to display error messages
+            function showErrorMessage(message) {
+                if (errorMessageText && errorMessage) {
+                    errorMessageText.textContent = message;
+                    errorMessage.style.display = 'block';
+                }
+                if (successMessage) {
+                    successMessage.style.display = 'none';
+                }
+
+                // Optional: Hide error message after a few seconds
+                setTimeout(() => {
+                    if (errorMessage) {
+                        errorMessage.style.display = 'none';
+                    }
+                }, 10000); // Hide after 10 seconds
+            }
+        });
+    </script>
+</body>
+
+</html>
