@@ -2,7 +2,7 @@ from sentence_transformers import SentenceTransformer, util
 from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
 import re
 
-model = SentenceTransformer("paraphrase-MiniLM-L6-v2")
+model = SentenceTransformer("all-MiniLM-L6-v2")
 
 def clean_text(text):
     text = re.sub(r"[^a-zA-Z0-9 ]", " ", text).lower()
